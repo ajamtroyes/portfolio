@@ -7,7 +7,7 @@ const projects = [
     title: "My Princess Shasha",
     link: "https://my-princess-shasha.netlify.app/",
     description: "Un site web esthétique interactif avec puzzle et animation.",
-    preview: "/formyprincess.png",
+    preview: "formyprincess.png",
   },
   {
     title: "Projet React Showcase",
