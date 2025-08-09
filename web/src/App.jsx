@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useViewportScroll, useTransform } from "framer-motion";
 
 const projects = [
   {
@@ -29,19 +30,35 @@ const itemVariants = {
 };
 
 export default function Portfolio() {
+  const [offsetY, setOffsetY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setOffsetY(window.pageYOffset);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div
-      className="text-white min-h-screen"
-      style={{
-        backgroundImage:
-          "linear-gradient(to bottom, #111827, #1f2937, #374151)",
-        backgroundAttachment: "fixed",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="relative text-white">
+      {/* Fond avec effet parallax */}
+      <div
+        className="fixed top-0 left-0 w-full [height:180vh] -z-10 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-700"
+        style={{
+          minHeight: "200vh",
+          transform: `translateY(${-offsetY * 0.3}px)`,
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80')",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+          backgroundPosition: "center",
+          filter: "brightness(0.6)",
+        }}
+      />
+
       {/* Hero */}
-      <section className="text-center px-6 md:px-20 py-16">
+      <section className="text-center px-6 md:px-20 py-16 relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -73,12 +90,11 @@ export default function Portfolio() {
       </section>
 
       {/* Compétences */}
-      <section className="mb-20 flex justify-center">
+      <section className="mb-20 flex justify-center relative z-10">
         <div className="w-full max-w-md px-6">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="text-3xl font-bold mb-6 text-center"
           >
@@ -86,8 +102,7 @@ export default function Portfolio() {
           </motion.h2>
           <motion.div
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
             className="grid grid-cols-2 gap-5 justify-items-center"
           >
@@ -104,7 +119,7 @@ export default function Portfolio() {
       </section>
 
       {/* Projets avec preview + overlay */}
-      <section>
+      <section className="relative z-10">
         {projects.map((project) => (
           <motion.div
             key={project.title}
