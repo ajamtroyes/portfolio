@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Mail } from "lucide-react";
-import { motion, useViewportScroll, useTransform } from "framer-motion";
+import { Mail, Github, Linkedin } from "lucide-react";
+import { motion } from "framer-motion";
 
 const projects = [
-  {
-    title: "My Princess Shasha",
-    link: "https://my-princess-shasha.netlify.app/",
-    description: "Un site web esthétique interactif avec puzzle et animation.",
-    preview: "formyprincess.png",
-  },
   {
     title: "Projet React Showcase",
     link: "https://react.dev",
@@ -22,6 +16,12 @@ const projects = [
     description: "Application CRUD construite avec PHP natif et base de données.",
     preview: "https://i.postimg.cc/DwKP5gFg/php-preview.jpg",
   },
+  {
+    title: "My Princess Shasha",
+    link: "https://my-princess-shasha.netlify.app/",
+    description: "Un site web esthétique interactif avec puzzle et animation.",
+    preview: "formyprincess.png",
+  },
 ];
 
 const itemVariants = {
@@ -33,9 +33,7 @@ export default function Portfolio() {
   const [offsetY, setOffsetY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setOffsetY(window.pageYOffset);
-    };
+    const handleScroll = () => setOffsetY(window.pageYOffset);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -63,19 +61,40 @@ export default function Portfolio() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
-          className="mt-6"
+          className="mt-6 flex flex-wrap gap-4 justify-center"
         >
           <a href="mailto:sawnn.grandin@epitech.eu">
             <Button className="flex gap-2">
               <Mail size={18} /> Me contacter
             </Button>
           </a>
+
+          <a
+            href="https://github.com/ajamtroyes"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button className="flex gap-2 bg-gray-800 hover:bg-gray-700">
+              <Github size={18} /> GitHub
+            </Button>
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/swann-grandin-6296932b1/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button className="flex gap-2 bg-blue-700 hover:bg-blue-600">
+              <Linkedin size={18} /> LinkedIn
+            </Button>
+          </a>
         </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-5xl font-bold"
+          className="text-5xl font-bold mt-10"
         >
           Swann Grandin
         </motion.h1>
@@ -106,7 +125,17 @@ export default function Portfolio() {
             transition={{ duration: 0.7 }}
             className="grid grid-cols-2 gap-5 justify-items-center"
           >
-            {["HTML", "CSS", "JavaScript", "React", "PHP", "SQL"].map((skill) => (
+            {[
+              "HTML",
+              "CSS",
+              "JavaScript",
+              "React",
+              "PHP",
+              "SQL",
+              "Flutter",
+              "PostgreSQL",
+              "MongoDB",
+            ].map((skill) => (
               <div
                 key={skill}
                 className="bg-white text-gray-900 px-6 py-3 rounded-xl shadow-lg w-48 text-center"
@@ -118,7 +147,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Projets avec preview + overlay */}
+      {/* Projets */}
       <section className="relative z-10">
         {projects.map((project) => (
           <motion.div
@@ -133,13 +162,11 @@ export default function Portfolio() {
               className="relative max-w-4xl w-full rounded-xl overflow-hidden shadow-xl cursor-pointer group"
               onClick={() => window.open(project.link, "_blank")}
             >
-              {/* Image de preview */}
               <img
                 src={project.preview}
                 alt={project.title}
                 className="w-full h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              {/* Overlay */}
               <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center p-6 text-center transition-opacity duration-300 group-hover:bg-opacity-70">
                 <h3 className="text-3xl font-bold">{project.title}</h3>
                 <p className="mt-4 text-lg">{project.description}</p>
